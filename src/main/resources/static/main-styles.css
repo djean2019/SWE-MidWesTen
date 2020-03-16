@@ -1,0 +1,23 @@
+/* -- main-styles.css -- */
+@charset "utf-8";
+html {
+	position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 100px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+    line-height: 50px;
+    background-color: #f5f5f5;
+}
+
+tr.datarow {
+    cursor: pointer;
+}

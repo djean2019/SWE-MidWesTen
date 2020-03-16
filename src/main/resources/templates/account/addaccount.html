@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html ang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link href="favicon.ico" rel="icon">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/united/bootstrap.min.css"
+          integrity="sha384-bzjLLgZOhgXbSvSc5A9LWWo/mSIYf7U7nFbmYIB2Lgmuiw3vKGJuu+abKoaTx4W6" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main-styles.css}" type="text/css">
+<title>MidWesTen Bank - Add new Customer</title>
+</head>
+<body>
+	<div th:replace="fragments/header2::header"></div>
+	
+	<div class="container" style="margin-top: 2em;"></div>
+	
+	<!-- <div style="margin-bottom: 1em;">
+            <span style="font-size: 2em; color: #32a5e7;">dd New Customer Form</span>
+    </div> -->
+        
+	<form id="addNewAccountForm" method="post" action="/account/addaccount" th:object="${account}">
+		<fieldset>
+			<Legend>New Account Creation Form</Legend>
+			<input type="hidden" name="accountId" th:field="*{accountId}" />
+           
+			<div class="container" style="margin-top: 1em;">
+                    <div class="row">
+                        <div class="col-md-12">  
+                            <div class="form-group">
+                                <label for="customer">Customer</label>
+                                <span th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}"
+                                      class="alert alert-danger"></span>
+                                 <select name="customer" id="customer" class="form-control" required="required">                                          <!-- customer.customerNumber + customer.firstName + customer.lastName -->
+                                    <option value="">Select a Customer</option>
+                                    <option th:if="${account.customer == null}" th:each="customer : ${customers}" th:value="${customer.customerId}" th:text="${customer.toString()}"></option>
+                                    <option th:if="${account.customer != null}" th:each="customer : ${customers}" th:value="${customer.customerId}" th:text="${customer.firstName}" th:selected="${customer.customerId == account.customer.customerId}"></option>
+                                </select>
+                                <!-- <input id="customer" name="customer" type="text" class="form-control" th:field="*{customer}" required="required"> -->
+                            </div>
+                       
+                            <div class="form-group">
+                                <label for="accountNumber">Account Number</label>
+                                <small><span th:if="${#fields.hasErrors('accountNumber')}" th:errors="*{customerNumber}"
+                                             class="alert alert-danger"></span></small>
+                                <input id="accountNumber" name="accountNumber" type="text" class="form-control" th:value="${accountNumber}" required autofocus="autofocus">
+                            </div>
+                     	
+                       	    <div class="form-group">
+                                <label for="accountType">Type of Account</label>
+                                <span th:if="${#fields.hasErrors('accountType')}" th:errors="*{accountType}"
+                                      class="alert alert-danger"></span>
+                                <select name="accountType" id="accountType" class="form-control" required="required">
+                                	<option value="">Select an Account Type</option>
+                                	<option th:if="${account.accountType==null}" th:each="accountType : ${accountTypes}" th:value="${accountType.accountTypeId}" th:text="${accountType.accountTypeName}"></option>
+                                	<option th:if="${account.accountType!=null}" th:each="accountType : ${accountTypes}" th:value="${accountType.accountTypeId}" th:text="${accountType.accountTypeName}" th:selected="${accountType.accountTypeId==account.accountType.accountTypeId"></option>
+                                
+                                </select>
+                            </div>
+                   
+                          	<div class="form-group">
+                                <label for="balance">Balance (in US Dollars and Cents)</label>
+                                <span th:if="${#fields.hasErrors('balance')}" th:errors="*{balance}"
+                                      class="alert alert-danger"></span>
+                                <input id="balance" name="balance" type="text" class="form-control" th:value="${account.balance}" placeholder="0.00" pattern="^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$">
+                                <small id="balanceHelp" class="form-text text-muted">Enter a valid decimal amount; in dollars and cents; no comma (e.g. 100.75)</small>
+                            </div>
+                            <div style="float:right;">
+                                <button id="btnReset" type="reset" class="btn btn-outline-info" style="margin-right: 2em;">Reset</button>
+                                <a href="/account/accountlist" class="btn btn-outline-warning" style="margin-right: 2em;">Cancel</a>
+                                <button id="btnSubmit" type="submit" class="btn btn-outline-primary">Create Account</button>
+                            </div>
+                        </div>
+                    </div>
+			
+		</fieldset>
+	</form>
+	
+</body>
+</html>
